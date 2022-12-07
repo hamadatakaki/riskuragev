@@ -5,7 +5,7 @@
 
 module decoder(
     input wire [31:0] inst,
-    output wire [5:0] alucode,
+    output wire [5:0] inst_code,
     output wire [4:0] rs1,
     output wire [4:0] rs2,
     output wire [4:0] rd,
@@ -18,7 +18,7 @@ module decoder(
     assign _sub = inst[14:12];
     assign y = 12'hxxx;
     
-    assign alucode = (_opc == `OP_LUI) ? `INST_LUI :
+    assign inst_code = (_opc == `OP_LUI) ? `INST_LUI :
                      (_opc == `OP_AUIPC) ? `INST_AUIPC :
                      (_opc == `OP_JAL) ? `INST_JAL :
                      (_opc == `OP_JALR) ? `INST_JALR :

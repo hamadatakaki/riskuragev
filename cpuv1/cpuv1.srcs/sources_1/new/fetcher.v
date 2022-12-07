@@ -33,7 +33,8 @@ endmodule
 // with Program-Counter increment, overwrite
 
 module fetcher_v2(
-    input wire clk_fetch,
+    input wire clk,
+    input wire enable,
     input wire write_pc,
     input wire [31:0] pc_new,
     output wire [31:0] instruction
@@ -43,11 +44,13 @@ module fetcher_v2(
 
     assign instruction = mem[pc];
 
-    always @(posedge clk_fetch) begin
-        pc <= pc + 1;
-        
-        if (write_pc == 1) begin
-            pc <= pc_new;
+    always @(posedge clk) begin
+        if (enable) begin
+            pc <= pc + 1;
+            
+            if (write_pc) begin
+                pc <= pc_new;
+            end
         end
     end
 endmodule

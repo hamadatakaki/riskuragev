@@ -22,12 +22,10 @@
 
 module register_file(
     input wire clk,
-    input wire write1,
-    input wire write2,
+    input wire write,
     input wire [5:0] rs1_addr,
     input wire [5:0] rs2_addr,
-    input wire [31:0] write_rs1_data,
-    input wire [31:0] write_rs2_data,
+    input wire [31:0] write_data,
     output wire [31:0] read_rs1_data,
     output wire [31:0] read_rs2_data
 );
@@ -37,12 +35,8 @@ module register_file(
     assign read_rs2_data = mem[rs2_addr];
 
     always @(posedge clk) begin
-        if (write1 == 1) begin
-            mem[rs1_addr] <= write_rs1_data;
-        end
-        
-        if (write2 == 1) begin
-            mem[rs2_addr] <= write_rs2_data;
+        if (write) begin
+            mem[rs1_addr] <= write_data;
         end
     end
 endmodule

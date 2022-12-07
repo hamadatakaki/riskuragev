@@ -1,5 +1,9 @@
-module top();
+module top(
+    input wire clk
+);
 
-    cpu cpu0();
+cpu cpu0(
+    .clk(clk)
+);
 
 endmodule

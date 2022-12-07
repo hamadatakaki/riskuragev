@@ -1,4 +1,5 @@
-`include "define.vh"
+`include "decoder.vh"
+`include "instruction.vh"
 
 `define UNDEFINED_IMM { 32{1'dx} }
 
@@ -17,49 +18,49 @@ module decoder(
     assign _sub = inst[14:12];
     assign y = 12'hxxx;
     
-    assign alucode = (_opc == `OP_LUI) ? `ALU_LUI :
-                     (_opc == `OP_AUIPC) ? `ALU_AUIPC :
-                     (_opc == `OP_JAL) ? `ALU_JAL :
-                     (_opc == `OP_JALR) ? `ALU_JALR :
+    assign alucode = (_opc == `OP_LUI) ? `INST_LUI :
+                     (_opc == `OP_AUIPC) ? `INST_AUIPC :
+                     (_opc == `OP_JAL) ? `INST_JAL :
+                     (_opc == `OP_JALR) ? `INST_JALR :
                      (_opc == `OP_BRANCH) ? (
-                        (_sub == `SUB_BEQ) ? `ALU_BEQ :
-                        (_sub == `SUB_BNE) ? `ALU_BNE :
-                        (_sub == `SUB_BLT) ? `ALU_BLT :
-                        (_sub == `SUB_BGE) ? `ALU_BGE :
-                        (_sub == `SUB_BLTU) ? `ALU_BLTU :
-                        (_sub == `SUB_BGEU) ? `ALU_BGEU :
-                        `ALU_NOP
+                        (_sub == `SUB_BEQ) ? `INST_BEQ :
+                        (_sub == `SUB_BNE) ? `INST_BNE :
+                        (_sub == `SUB_BLT) ? `INST_BLT :
+                        (_sub == `SUB_BGE) ? `INST_BGE :
+                        (_sub == `SUB_BLTU) ? `INST_BLTU :
+                        (_sub == `SUB_BGEU) ? `INST_BGEU :
+                        `INST_NOP
                      ) :
                      (_opc == `OP_STORE) ? (
-                        (_sub == `SUB_SB) ? `ALU_SB :
-                        (_sub == `SUB_SH) ? `ALU_SH :
-                        (_sub == `SUB_SW) ? `ALU_SW :
-                        `ALU_NOP
+                        (_sub == `SUB_SB) ? `INST_SB :
+                        (_sub == `SUB_SH) ? `INST_SH :
+                        (_sub == `SUB_SW) ? `INST_SW :
+                        `INST_NOP
                      ) :
                      (_opc == `OP_LOAD) ? (
-                        (_sub == `SUB_LB) ? `ALU_LB :
-                        (_sub == `SUB_LH) ? `ALU_LH :
-                        (_sub == `SUB_LW) ? `ALU_LW :
-                        (_sub == `SUB_LBU) ? `ALU_LBU :
-                        (_sub == `SUB_LHU) ? `ALU_LHU :
-                        `ALU_NOP
+                        (_sub == `SUB_LB) ? `INST_LB :
+                        (_sub == `SUB_LH) ? `INST_LH :
+                        (_sub == `SUB_LW) ? `INST_LW :
+                        (_sub == `SUB_LBU) ? `INST_LBU :
+                        (_sub == `SUB_LHU) ? `INST_LHU :
+                        `INST_NOP
                      ) :
                      (_opc == `OP_OPIMM || _opc == `OP_OP) ? (
                         (_sub == `SUB_ADD) ? (
-                            (inst[30] == 0) ? `ALU_ADD : `ALU_SUB
+                            (inst[30] == 0) ? `INST_ADD : `INST_SUB
                         ) :
-                        (_sub == `SUB_SLL) ? `ALU_SLL :
-                        (_sub == `SUB_SLT) ? `ALU_SLT :
-                        (_sub == `SUB_SLTU) ? `ALU_SLTU :
-                        (_sub == `SUB_XOR) ? `ALU_XOR :
+                        (_sub == `SUB_SLL) ? `INST_SLL :
+                        (_sub == `SUB_SLT) ? `INST_SLT :
+                        (_sub == `SUB_SLTU) ? `INST_SLTU :
+                        (_sub == `SUB_XOR) ? `INST_XOR :
                         (_sub == `SUB_SRL) ? (
-                            (inst[30] == 0) ? `ALU_SRL : `ALU_SRA
+                            (inst[30] == 0) ? `INST_SRL : `INST_SRA
                         ) :
-                        (_sub == `SUB_OR) ? `ALU_OR :
-                        (_sub == `SUB_AND) ? `ALU_AND :
-                        `ALU_NOP
+                        (_sub == `SUB_OR) ? `INST_OR :
+                        (_sub == `SUB_AND) ? `INST_AND :
+                        `INST_NOP
                      ) :
-                     `ALU_NOP;
+                     `INST_NOP;
 
     assign rs1 = inst[19:15];
     assign rs2 = inst[24:20];

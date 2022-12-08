@@ -66,9 +66,10 @@ module decoder(
     assign rs2 = inst[24:20];
     assign rd = inst[11:7];
 
-    assign imm = (_opc == `OP_LUI || _opc == `OP_AUIPC) ? inst :
-                 (_opc == `OP_JAL) ? { {11{1'd0}}, inst[31], inst[19:12], inst[20], inst[30:21], { 1'b0 } } :
-                 (_opc == `OP_OPIMM || _opc == `OP_JALR || _opc == `OP_LOAD) ? { {20{1'd0}}, inst[31:20] } :
+    assign imm = (_opc == `OP_LUI || _opc == `OP_AUIPC) ? { inst[31:12], {12{1'd0}} } :
+                 (_opc == `OP_JAL) ? { {11{1'd0}}, inst[31], inst[19:12], inst[20], inst[30:21], {1'b0} } :
+                 (_opc == `OP_OPIMM) ?  { {20{inst[31]}}, inst[31:20] } :
+                 (_opc == `OP_JALR || _opc == `OP_LOAD) ? { {20{1'd0}}, inst[31:20] } :
                  (_opc == `OP_STORE) ? { {20{1'd0}}, inst[31:25], inst[11:7] } :
                  (_opc == `OP_BRANCH) ? { {32{1'd0}}, inst[31], inst[7], inst[30:25], inst[11:8], { 1'b0 } } :
                  `UNDEFINED_IMM;

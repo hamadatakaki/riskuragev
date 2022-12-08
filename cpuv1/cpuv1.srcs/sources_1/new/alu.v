@@ -4,8 +4,8 @@ module alu(
     input wire [3:0] alu_op,
     input wire [31:0] lhs,
     input wire [31:0] rhs,
-    output wire [31:0] dst,
-    output wire cflag
+    // output wire cflag,
+    output wire [31:0] dst
 );
     wire [32:0] _dst;
     
@@ -13,10 +13,10 @@ module alu(
                   (alu_op == `ALU_SUB) ? lhs - rhs :
                   (alu_op == `ALU_SLL) ? lhs << rhs[4:0] :
                   (alu_op == `ALU_SLT) ? (
-                    ($signed(lhs) < $signed(rhs)) ? 1 : 0
+                      ($signed(lhs) < $signed(rhs)) ? 32'd1 : 32'd0
                   ) :
                   (alu_op == `ALU_SLTU) ? (
-                    (lhs < rhs) ? 1 : 0
+                      (lhs < rhs) ? 32'd1 : 32'd0
                   ) :
                   (alu_op == `ALU_XOR) ? lhs ^ rhs :
                   (alu_op == `ALU_SRL) ? lhs[4:0] >> rhs :
@@ -26,5 +26,5 @@ module alu(
                   `NOT_REACHABLE_ALU_RESULT;
 
     assign dst = _dst[31:0];
-    assign cflag = _dst[32];
+    // assign cflag = _dst[32];
 endmodule

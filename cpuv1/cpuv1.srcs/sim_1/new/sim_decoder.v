@@ -19,12 +19,12 @@
 // 
 //////////////////////////////////////////////////////////////////////////////////
 
-`define echo(code, rs1, rs2, rd, imm) \
+`define echo_decoder(code, rs1, rs2, rd, imm) \
     $display("instcode, rd, rs1, rs2, imm:", code, ",", rd, ",", rs1, ",", rs2, ",", imm)
 
 `define test_decoder(_inst) \
     inst = _inst; \
-    `echo(inst_code, rs1, rs2, rd, imm); \
+    `echo_decoder(inst_code, rs1, rs2, rd, imm); \
     # 5
 
 module sim_decoder();

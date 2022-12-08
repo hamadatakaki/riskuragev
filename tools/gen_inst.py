@@ -208,17 +208,19 @@ class RISCVInstruction:
 
 
 if __name__ == '__main__':
-    parser = argparse.ArgumentParser()
+    # parser = argparse.ArgumentParser()
 
-    parser.add_argument("--op")
-    parser.add_argument("--rs1")
-    parser.add_argument("--rs2")
-    parser.add_argument("--rd")
+    # parser.add_argument("--op")
+    # parser.add_argument("--rs1")
+    # parser.add_argument("--rs2")
+    # parser.add_argument("--rd")
 
-    args = parser.parse_args()
+    # args = parser.parse_args()
 
-    for op in ["Sb", "Sh", "Sw", "Beq", "Bne", "Blt", "Bge", "Bltu", "Bgeu", "LUi", "AUiPC", "XORi", "ORi", "ANDi"]:
-        # for op in ["ADDi", "SLTi", "SLTiu", "XORi", "ORi", "ANDi", "Lb", "Lh", "Lw", "Lbu", "Lhu", "JALR", "ADD", "SUB", "SLL", "SLT", "SLTu", "XOR", "SRL", "SRA", "OR", "AND"]:
-        args.op = op
-        inst = RISCVInstruction.from_args(args)
-        print(inst.instruction())
+    operations = ["Sb", "Sh", "Sw", "Beq", "Bne", "Blt", "Bge", "Bltu", "Bgeu", "LUi", "AUiPC", "XORi", "ORi", "ANDi", "ADDi", "SLTi", "SLTiu",
+                  "XORi", "ORi", "ANDi", "Lb", "Lh", "Lw", "Lbu", "Lhu", "JALR", "ADD", "SUB", "SLL", "SLT", "SLTu", "XOR", "SRL", "SRA", "OR", "AND"]
+
+    for op in operations:
+        inst = RISCVInstruction(op, None, None, None)
+        print(
+            f"\t`test_decoder({inst.instruction()});  // {inst.op}, {inst.rd}, {inst.rs1}, {inst.rs2}")

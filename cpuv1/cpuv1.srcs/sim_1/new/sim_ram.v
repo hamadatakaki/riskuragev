@@ -20,22 +20,27 @@
 //////////////////////////////////////////////////////////////////////////////////
 
 `define CYCLE_NS 10
+`define ADDLEN 4
+`define DATALEN 16
 
 `define read_test(adr) addr_r <= adr
 `define write_test(adw, dataw) write <= 1; addr_w <= adw; addr_r <= adw - 1; data_w <= dataw
 
 module sim_ram;
-
+    
     reg clk = 0;
-    reg [31:0] addr_r = 0;
+    reg [`ADDLEN - 1:0] addr_r = 0;
 
     reg write = 0;
-    reg [31:0] addr_w = 0;
-    reg [31:0] data_w = 0;
+    reg [`ADDLEN - 1:0] addr_w = 0;
+    reg [`DATALEN - 1:0] data_w = 0;
 
-    wire [31:0] data_r;
+    wire [`DATALEN - 1:0] data_r;
 
-    block_ram ram0(
+    block_ram #(
+        .ADDRESS_LENGTH(`ADDLEN),
+        .DATA_LENGTH(`DATALEN)
+    ) ram0(
         .clk(clk),
         .addr_read(addr_r),
         .data_read(data_r),
@@ -53,7 +58,7 @@ module sim_ram;
 //    end
 
     initial begin
-        $readmemh("./sim_ram_1.hex", ram0.mem, 0);
+        $readmemh("./sim_ram_2.hex", ram0.mem, 0);
     end
 
     initial begin
@@ -68,9 +73,9 @@ module sim_ram;
         addr_r <= 0;
         data_w <= 0123_4567;
 
-        #(`CYCLE_NS)    `write_test(0, 32'h0000_0000);
-        #(`CYCLE_NS)    `write_test(1, 32'h1111_1111);
-        #(`CYCLE_NS)    `write_test(2, 32'h2222_2222);
+        #(`CYCLE_NS)    `write_test(0, 32'h0000);
+        #(`CYCLE_NS)    `write_test(1, 32'h1111);
+        #(`CYCLE_NS)    `write_test(2, 32'h2222);
         
         #(`CYCLE_NS)    `read_test(2);
         

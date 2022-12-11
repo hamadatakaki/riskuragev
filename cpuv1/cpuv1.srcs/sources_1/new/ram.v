@@ -39,15 +39,18 @@ module distributed_ram(
     end
 endmodule
 
-module block_ram(
+module block_ram #(
+    parameter ADDRESS_LENGTH = 32,
+    parameter DATA_LENGTH = 32
+) (
     input wire clk,
-    input wire [31:0] addr_read,
-    output reg [31:0] data_read,
+    input wire [ADDRESS_LENGTH - 1:0] addr_read,
+    output reg [DATA_LENGTH - 1:0] data_read,
     input wire write,
-    input wire [31:0] addr_write,
-    input wire [31:0] data_write
+    input wire [ADDRESS_LENGTH - 1:0] addr_write,
+    input wire [DATA_LENGTH - 1:0] data_write
 );
-    reg [31:0] mem [0:31];
+    reg [DATA_LENGTH - 1:0] mem [0:ADDRESS_LENGTH - 1];
     
     always @(posedge clk) begin
         data_read <= mem[addr_read];

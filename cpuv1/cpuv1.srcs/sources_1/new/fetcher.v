@@ -19,6 +19,8 @@
 // 
 //////////////////////////////////////////////////////////////////////////////////
 
+`include "fetcher.vh"
+
 // without Program-Counter
 
 module fetcher_v1(
@@ -53,4 +55,34 @@ module fetcher_v2(
             end
         end
     end
+endmodule
+
+// with Block ROM
+
+module fetcher_v3(
+    input wire clk,
+    input wire enable,
+    input wire write_pc,
+    input wire [31:0] pc_new,
+    output wire [31:0] instruction
+);
+
+    reg [31:0] pc = `PC_INIT;
+
+    block_rom rom0 (
+        .clk(clk),
+        .addr(pc),
+        .data(instruction)
+    );
+
+    always @(posedge clk) begin
+        if (enable) begin
+            pc <= pc + 1;
+            
+            if (write_pc) begin
+                pc <= pc_new;
+            end
+        end
+    end
+
 endmodule

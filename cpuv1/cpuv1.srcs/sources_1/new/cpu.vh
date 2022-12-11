@@ -1,1 +1,1 @@
-`define CPU_STEPSIZE 4
+`define CPU_STEPSIZE 3

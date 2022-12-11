@@ -21,6 +21,9 @@
 
 `define CYCLE_NS 10
 
+`define read_test(adr) addr_r <= adr
+`define write_test(adw, dataw) write <= 1; addr_w <= adw; addr_r <= adw - 1; data_w <= dataw
+
 module sim_ram;
 
     reg clk = 0;
@@ -54,13 +57,24 @@ module sim_ram;
     end
 
     initial begin
-        #(`CYCLE_NS)    addr_r <= 0;
-        #(`CYCLE_NS)    addr_r <= 1;
-        #(`CYCLE_NS)    addr_r <= 2;
-        #(`CYCLE_NS)    addr_r <= 3;
-        #(`CYCLE_NS)    addr_r <= 4;
-        #(`CYCLE_NS)    addr_r <= 5;
+        #(`CYCLE_NS)    `read_test(0);
+        #(`CYCLE_NS)    `read_test(1);
+        #(`CYCLE_NS)    `read_test(2);
+        #(`CYCLE_NS)    `read_test(3);
 
+        #(`CYCLE_NS)
+        write <= 1;
+        addr_w <= 1;
+        addr_r <= 0;
+        data_w <= 0123_4567;
+
+        #(`CYCLE_NS)    `write_test(0, 32'h0000_0000);
+        #(`CYCLE_NS)    `write_test(1, 32'h1111_1111);
+        #(`CYCLE_NS)    `write_test(2, 32'h2222_2222);
+        
+        #(`CYCLE_NS)    `read_test(2);
+        
+        #(`CYCLE_NS)
         $finish;
     end
 

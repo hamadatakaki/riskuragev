@@ -30,17 +30,7 @@ module cpu(
         input [5:0] INSTCODE
     ); 
     begin
-        CONVERT_ALUOP = (INSTCODE == `INST_ADD) ? `ALU_ADD :
-                        (INSTCODE == `INST_SUB) ? `ALU_SUB :
-                        (INSTCODE == `INST_SLL) ? `ALU_SLL :
-                        (INSTCODE == `INST_SLT) ? `ALU_SLT :
-                        (INSTCODE == `INST_SLTU) ? `ALU_SLTU :
-                        (INSTCODE == `INST_XOR) ? `ALU_XOR :
-                        (INSTCODE == `INST_SRL) ? `ALU_SRL :
-                        (INSTCODE == `INST_SRA) ? `ALU_SRA :
-                        (INSTCODE == `INST_OR) ? `ALU_OR :
-                        (INSTCODE == `INST_AND) ? `ALU_AND :
-                        `ALU_NOP;
+        CONVERT_ALUOP = INSTCODE[3:0];
     end
     endfunction
 
@@ -83,7 +73,7 @@ module cpu(
     );
 
     alu alu0(
-        .alu_op(CONVERT_ALUOP(inst_code)),
+        .alu_op(inst_code[3:0]),
         .lhs(rs1_data),
         .rhs(
             calc_imm ? imm : rs2_data

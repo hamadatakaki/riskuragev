@@ -26,28 +26,26 @@
 module cpu(
     input wire clk
 );
-    function [3:0] CONVERT_ALUOP (
-        input [5:0] INSTCODE
-    ); 
-    begin
-        CONVERT_ALUOP = INSTCODE[3:0];
-    end
-    endfunction
-
-    reg ctr = 0;
+    reg [2:0] ctr = -1;
 
     wire [31:0] inst;
+    wire [1:0] update_pc_type;
+    wire [31:0] imm;
+    wire [31:0] rs1_data;
 
-    fetcher_v2 fetcher0(
+    fetcher_v3 fetcher0(
         .clk(clk),
-        .enable(ctr == 0),
-        .instruction(inst)
+        .instruction(inst),
+        .en_update_pc(ctr == `CPU_STEP_WRITEBACK),
+        .update_pc_type(update_pc_type),
+        .rs1(rs1_data),
+        .imm(imm)
     );
 
     wire [5:0] inst_code;
     wire [4:0] rs1_addr, rs2_addr, rd_addr;
-    wire [31:0] imm;
-    wire calc_imm;
+    
+    wire [1:0] lhs_type, rhs_type;
 
     decoder decoder0(
         .inst(inst),
@@ -56,32 +54,37 @@ module cpu(
         .rs2(rs2_addr),
         .rd(rd_addr),
         .imm(imm),
-        .calc_imm(calc_imm)
+        .lhs_input_type(lhs_type),
+        .rhs_input_type(rhs_type),
+        .update_pc_type(update_pc_type)
     );
 
-    wire [31:0] rs1_data, rs2_data;
-    wire [31:0] rd_data;
+    wire [31:0] rs2_data;
+    wire [31:0] exec_dst;
 
-    register_file_v1 register_file0(
+    register_file_v2 register_file0(
         .clk(clk),
-        .write(ctr == 2),
-        .rs1_addr(rs1_addr),
-        .rs2_addr(rs2_addr),
-        .read_rs1_data(rs1_data),
-        .read_rs2_data(rs2_data),
-        .write_data(rd_data)
+        .write(ctr == `CPU_STEP_REGUPD),
+        .addr_rs1(rs1_addr),
+        .addr_rs2(rs2_addr),
+        .data_rs1(rs1_data),
+        .data_rs2(rs2_data),
+        .addr_write(rd_addr),
+        .data_write(exec_dst)
     );
 
-    alu alu0(
-        .alu_op(inst_code[3:0]),
-        .lhs(rs1_data),
-        .rhs(
-            calc_imm ? imm : rs2_data
-        ),
-        .dst(rd_data)
+    execution exec0 (
+        .rs1(rs1_data),
+        .rs2(rs2_data),
+        .imm(imm),
+        .pc(fetcher0.pc),
+        .rhs_ty(rhs_type),
+        .lhs_ty(lhs_type),
+        .instcode(inst_code),
+        .dst(exec_dst)
     );
     
-    always @(posedge clk) begin
+    always @(negedge clk) begin
         ctr <= (ctr + 1) % `CPU_STEPSIZE;
     end
 endmodule

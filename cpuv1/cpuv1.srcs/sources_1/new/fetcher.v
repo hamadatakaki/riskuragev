@@ -61,27 +61,30 @@ endmodule
 
 module fetcher_v3(
     input wire clk,
-    input wire enable,
-    input wire write_pc,
-    input wire [31:0] pc_new,
-    output wire [31:0] instruction
+    output wire [31:0] instruction,
+    input wire en_update_pc,
+    input wire [1:0] update_pc_type,
+    input wire [31:0] rs1,
+    input wire [31:0] imm
 );
-
     reg [31:0] pc = `PC_INIT;
 
-    block_rom rom0 (
+    wire [31:0] _pc;
+    assign _pc = pc >> 2;
+
+    block_rom #(
+        .CAPACITY(`FETCHER_ROM_SIZE)
+    ) rom0 (
         .clk(clk),
-        .addr(pc),
+        .addr(_pc),
         .data(instruction)
     );
 
     always @(posedge clk) begin
-        if (enable) begin
-            pc <= pc + 1;
-            
-            if (write_pc) begin
-                pc <= pc_new;
-            end
+        if (en_update_pc == 1) begin
+            pc <= (update_pc_type == `UPD_PC_IMM)    ? pc  + imm : 
+                  (update_pc_type == `UPD_PC_REGIMM) ? rs1 + imm : 
+                  pc  + 32'd4;
         end
     end
 

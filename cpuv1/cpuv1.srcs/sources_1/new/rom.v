@@ -10,12 +10,14 @@ module distributed_rom(
     assign data = mem[addr];
 endmodule
 
-module block_rom(
+module block_rom #(
+    parameter CAPACITY = 32'h1_8000
+) (
     input wire clk,
     input wire [31:0] addr,
     output reg [31:0] data
 );
-    reg [31:0] mem [0:31];
+    reg [31:0] mem [0:CAPACITY - 1];
 
     always @(posedge clk) begin
         data <= mem[addr];

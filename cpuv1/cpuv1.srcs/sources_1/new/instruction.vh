@@ -27,4 +27,16 @@
 `define INST_SB     6'd25
 `define INST_SH     6'd26
 `define INST_SW     6'd27
-`define INST_NOP    6'dx
+`define INST_NOP    6'h3F
+
+// ALU left-hand-side input type
+`define LHS_INPUT_RS1   2'd0
+`define LHS_INPUT_PC    2'd1
+`define LHS_INPUT_CONST 2'd2
+`define LHS_INPUT_NOP   2'd3
+
+// ALU right-hand-side input type
+`define RHS_INPUT_RS2   2'd0
+`define RHS_INPUT_IMM   2'd1
+`define RHS_INPUT_CONST 2'd2
+`define RHS_INPUT_NOP   2'd3

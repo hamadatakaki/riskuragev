@@ -43,31 +43,7 @@ endmodule
 
 // v2: read syncronize.
 
-module register_file_v2(
-    input wire clk,
-    input wire write,
-    input wire [4:0] rs1_addr,
-    input wire [4:0] rs2_addr,
-    input wire [4:0] write_addr,
-    input wire [31:0] write_data,
-    output reg [31:0] read_rs1_data,
-    output reg [31:0] read_rs2_data
-);
-    reg [31:0] mem [0:4];
-
-    always @(posedge clk) begin
-        read_rs1_data <= mem[rs1_addr];
-        read_rs2_data <= mem[rs2_addr];
-    
-        if (write) begin
-            mem[write_addr] <= write_data;
-        end
-    end
-endmodule
-
-// v3: use two ram
-
-module register_file_v3 (
+module register_file_v2 (
     input wire clk,
     input wire write,
     input wire [4:0] addr_rs1,
@@ -78,6 +54,10 @@ module register_file_v3 (
     input wire [31:0] data_write
 );
     reg [31:0] mem [0:31];
+    
+    initial begin
+        mem[0] = 0;
+    end
     
     always @(posedge clk) begin
         data_rs1 <= mem[addr_rs1];

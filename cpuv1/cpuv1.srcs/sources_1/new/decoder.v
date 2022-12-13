@@ -1,5 +1,6 @@
 `include "decoder.vh"
 `include "instruction.vh"
+`include "fetcher.vh"
 
 `define UNDEFINED_IMM { 32{1'dx} }
 
@@ -10,7 +11,9 @@ module decoder(
     output wire [4:0] rs2,
     output wire [4:0] rd,
     output wire [31:0] imm,
-    output wire calc_imm
+    output wire [1:0] lhs_input_type,
+    output wire [1:0] rhs_input_type,
+    output wire [1:0] update_pc_type
 );
     wire [6:0] _opc;
     wire [2:0] _sub;
@@ -74,5 +77,17 @@ module decoder(
                  (_opc == `OP_BRANCH) ? { {32{1'd0}}, inst[31], inst[7], inst[30:25], inst[11:8], { 1'b0 } } :
                  `UNDEFINED_IMM;
                  
-    assign calc_imm = (_opc == `OP_OP || _opc == `OP_LUI) ? 0 : 1;
+    assign lhs_input_type = (_opc == `OP_OPIMM || _opc == `OP_OP) ? `LHS_INPUT_RS1 :
+                            (_opc == `OP_AUIPC || _opc == `OP_JAL || _opc == `OP_JALR) ? `LHS_INPUT_PC :
+                            (_opc == `OP_LUI) ? `LHS_INPUT_CONST :
+                            `LHS_INPUT_NOP;
+                            
+    assign rhs_input_type = (_opc == `OP_OP) ? `RHS_INPUT_RS2 :
+                            (_opc == `OP_OPIMM || _opc == `OP_AUIPC || _opc == `OP_LUI) ? `RHS_INPUT_IMM :
+                            (_opc == `OP_JAL || _opc == `OP_JALR) ? `RHS_INPUT_CONST :
+                            `RHS_INPUT_NOP;
+    
+    assign update_pc_type = (_opc == `OP_JAL || _opc == `OP_BRANCH) ? `UPD_PC_IMM :
+                            (_opc == `OP_JALR) ? `UPD_PC_REGIMM :
+                            `UPD_PC_INC;
 endmodule

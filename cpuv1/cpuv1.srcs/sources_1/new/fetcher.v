@@ -64,7 +64,7 @@ module fetcher_v3(
     output wire [31:0] instruction,
     input wire en_update_pc,
     input wire [1:0] update_pc_type,
-    input wire [31:0] rs1,
+    input wire [31:0] data_rs1,
     input wire [31:0] imm
 );
     reg [31:0] pc = `PC_INIT;
@@ -81,10 +81,11 @@ module fetcher_v3(
     );
 
     always @(posedge clk) begin
-        if (en_update_pc == 1) begin
-            pc <= (update_pc_type == `UPD_PC_IMM)    ? pc  + imm : 
-                  (update_pc_type == `UPD_PC_REGIMM) ? rs1 + imm : 
-                  pc  + 32'd4;
+        if (en_update_pc) begin
+            pc <= (update_pc_type == `UPD_PC_IMM)    ? pc + imm : 
+                  (update_pc_type == `UPD_PC_REGIMM) ? data_rs1 + imm :
+                  (update_pc_type == `UPD_PC_INC)    ? pc + 32'd4 :
+                  pc;
         end
     end
 

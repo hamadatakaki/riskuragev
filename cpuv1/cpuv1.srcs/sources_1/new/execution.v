@@ -24,29 +24,40 @@
 `define RHS_CONSTANT 32'h0000_0001
 
 module execution(
-    input wire [31:0] rs1, rs2, imm, pc,
-    input wire [1:0] rhs_ty, lhs_ty,
-    input wire [5:0] instcode,
+    input wire clk,  // for DEBUG
+    input wire [31:0] data_rs1, data_rs2, imm, pc,
+    input wire [1:0] lhs_type, rhs_type,
+    input wire [5:0] instruction_code,
+    input wire [1:0] default_update_pc_type,
+    output wire [1:0] update_pc_type,
     output wire [31:0] dst
 );
     wire [31:0] rhs, lhs;
     
     mux_2bit muxL (
-        .ope(lhs_ty),
-        .in1(rs1),
+        .ope(lhs_type),
+        .in1(data_rs1),
         .in2(pc),
-        .in3(0),
+        .in3(32'h0000_0000),
         .in4(`UNREACHABLE_VALUE_32),
         .out(lhs)
     );
     
     mux_2bit muxR (
-        .ope(rhs_ty),
-        .in1(rs2),
+        .ope(rhs_type),
+        .in1(data_rs2),
         .in2(imm),
-        .in3(4),
+        .in3(32'h0000_0004),
         .in4(`UNREACHABLE_VALUE_32),
         .out(rhs)
+    );
+    
+    branch branch0 (
+        .data_rs1(data_rs1),
+        .data_rs2(data_rs2),
+        .instruction_code(instruction_code),
+        .default_update_pc_type(default_update_pc_type),
+        .update_pc_type(update_pc_type)
     );
 
     function [3:0] ALUCODE (
@@ -60,7 +71,7 @@ module execution(
     endfunction
 
     alu alu0 (
-        .alu_op(ALUCODE(instcode)),
+        .alu_op(ALUCODE(instruction_code)),
         .lhs(lhs),
         .rhs(rhs),
         .dst(dst)

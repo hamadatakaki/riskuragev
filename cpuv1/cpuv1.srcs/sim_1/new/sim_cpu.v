@@ -33,8 +33,9 @@ module sim_cpu();
     end
     
     initial begin
-        $readmemh("./sim_inst_jalr.hex", cpu0.fetcher0.rom0.mem, 32'h2000);
-    
+        $readmemh("./sim_inst_blt.hex", cpu0.fetcher0.rom0.mem, 32'h2000);
+        $readmemh("./sim_inst_blt_reg.hex", cpu0.register_file0.mem, 0);
+
         #(`CYCLE_NS * `N_CYCLES);
         
         $finish;

@@ -27,61 +27,63 @@ module cpu(
     input wire clk
 );
     reg [2:0] ctr = -1;
-
-    wire [31:0] inst;
-    wire [1:0] update_pc_type;
-    wire [31:0] imm;
-    wire [31:0] rs1_data;
+    
+    wire [31:0] instruction, data_rs1, data_rs2, data_rd, imm;
+    wire [5:0] instruction_code;
+    wire [4:0] addr_rs1, addr_rs2, addr_rd;
+    wire [1:0] lhs_type, rhs_type, _update_pc_type, update_pc_type;
+    wire update_rd;
+    wire en_update_pc, en_write, en_store;
+    
+    assign en_update_pc = (ctr == `CPU_STEP_WRITEBACK);
+    assign en_write = (ctr == `CPU_STEP_REGUPD) & update_rd;
 
     fetcher_v3 fetcher0(
         .clk(clk),
-        .instruction(inst),
-        .en_update_pc(ctr == `CPU_STEP_WRITEBACK),
+        .instruction(instruction),
+        .en_update_pc(en_update_pc),
         .update_pc_type(update_pc_type),
-        .rs1(rs1_data),
+        .data_rs1(data_rs1),
         .imm(imm)
     );
 
-    wire [5:0] inst_code;
-    wire [4:0] rs1_addr, rs2_addr, rd_addr;
-    
-    wire [1:0] lhs_type, rhs_type;
-
     decoder decoder0(
-        .inst(inst),
-        .inst_code(inst_code),
-        .rs1(rs1_addr),
-        .rs2(rs2_addr),
-        .rd(rd_addr),
+        .clk(clk),
+        .instruction(instruction),
+        .instruction_code(instruction_code),
+        .addr_rs1(addr_rs1),
+        .addr_rs2(addr_rs2),
+        .addr_rd(addr_rd),
         .imm(imm),
         .lhs_input_type(lhs_type),
         .rhs_input_type(rhs_type),
-        .update_pc_type(update_pc_type)
+        .update_pc_type(_update_pc_type),
+        .update_rd(update_rd)
     );
-
-    wire [31:0] rs2_data;
-    wire [31:0] exec_dst;
 
     register_file_v2 register_file0(
         .clk(clk),
-        .write(ctr == `CPU_STEP_REGUPD),
-        .addr_rs1(rs1_addr),
-        .addr_rs2(rs2_addr),
-        .data_rs1(rs1_data),
-        .data_rs2(rs2_data),
-        .addr_write(rd_addr),
-        .data_write(exec_dst)
+        .addr_rs1(addr_rs1),
+        .addr_rs2(addr_rs2),
+        .data_rs1(data_rs1),
+        .data_rs2(data_rs2),
+        .en_write(en_write),
+        .addr_write(addr_rd),
+        .data_write(data_rd)
     );
 
     execution exec0 (
-        .rs1(rs1_data),
-        .rs2(rs2_data),
+        .clk(clk),
+        .data_rs1(data_rs1),
+        .data_rs2(data_rs2),
         .imm(imm),
         .pc(fetcher0.pc),
-        .rhs_ty(rhs_type),
-        .lhs_ty(lhs_type),
-        .instcode(inst_code),
-        .dst(exec_dst)
+        .lhs_type(lhs_type),
+        .rhs_type(rhs_type),
+        .instruction_code(instruction_code),
+        .default_update_pc_type(_update_pc_type),
+        .update_pc_type(update_pc_type),
+        .dst(data_rd)
     );
     
     always @(negedge clk) begin

@@ -61,9 +61,10 @@ endmodule
 
 module fetcher_v3(
     input wire clk,
+    input wire [1:0] fetcher_option,
+    input wire en_fetch,
     output wire [31:0] instruction,
     input wire en_update_pc,
-    input wire [1:0] update_pc_type,
     input wire [31:0] data_rs1,
     input wire [31:0] imm
 );
@@ -76,16 +77,16 @@ module fetcher_v3(
         .CAPACITY(`FETCHER_ROM_SIZE)
     ) rom0 (
         .clk(clk),
+        .en_read(en_fetch),
         .addr(_pc),
         .data(instruction)
     );
 
     always @(posedge clk) begin
         if (en_update_pc) begin
-            pc <= (update_pc_type == `UPD_PC_IMM)    ? pc + imm : 
-                  (update_pc_type == `UPD_PC_REGIMM) ? data_rs1 + imm :
-                  (update_pc_type == `UPD_PC_INC)    ? pc + 32'd4 :
-                  pc;
+            pc <= (fetcher_option == `UPD_PC_IMM)    ? pc + imm : 
+                  (fetcher_option == `UPD_PC_REGIMM) ? data_rs1 + imm :
+                  pc + 32'd4;
         end
     end
 

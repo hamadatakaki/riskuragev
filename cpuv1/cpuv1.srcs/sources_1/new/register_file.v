@@ -45,11 +45,13 @@ endmodule
 
 module register_file_v2 (
     input wire clk,
+    input wire en_load_rs1,
     input wire [4:0] addr_rs1,
-    input wire [4:0] addr_rs2,
     output reg [31:0] data_rs1,
+    input wire en_load_rs2,
+    input wire [4:0] addr_rs2, 
     output reg [31:0] data_rs2,
-    input wire en_write,
+    input wire en_store_rd,
     input wire [4:0] addr_write,
     input wire [31:0] data_write
 );
@@ -60,10 +62,15 @@ module register_file_v2 (
     end
     
     always @(posedge clk) begin
-        data_rs1 <= mem[addr_rs1];
-        data_rs2 <= mem[addr_rs2];
+        if (en_load_rs1) begin
+            data_rs1 <= mem[addr_rs1];
+        end
         
-        if (en_write) begin
+        if (en_load_rs2) begin
+            data_rs2 <= mem[addr_rs2];
+        end
+        
+        if (en_store_rd) begin
             mem[addr_write] <= data_write;
         end
     end

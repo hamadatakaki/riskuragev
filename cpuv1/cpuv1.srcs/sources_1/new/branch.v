@@ -30,12 +30,12 @@ module branch(
 );
     wire overwrite;
     assign overwrite = (instruction_code == `INST_BEQ) ? (data_rs1 == data_rs2) :
-                     (instruction_code == `INST_BNE) ? (data_rs1 != data_rs2) :
-                     (instruction_code == `INST_BLT) ? ($signed(data_rs1) < $signed(data_rs2)) :
-                     (instruction_code == `INST_BGE) ? ($signed(data_rs1) >= $signed(data_rs2)) :
-                     (instruction_code == `INST_BLT) ? (data_rs1 < data_rs2) :
-                     (instruction_code == `INST_BGE) ? (data_rs1 >= data_rs2) :
-                     0;
+                       (instruction_code == `INST_BNE) ? (data_rs1 != data_rs2) :
+                       (instruction_code == `INST_BLT) ? ($signed(data_rs1) < $signed(data_rs2)) :
+                       (instruction_code == `INST_BGE) ? ($signed(data_rs1) >= $signed(data_rs2)) :
+                       (instruction_code == `INST_BLTU) ? (data_rs1 < data_rs2) :
+                       (instruction_code == `INST_BGEU) ? (data_rs1 >= data_rs2) :
+                       0;
                      
     assign update_pc_type = overwrite ? `UPD_PC_IMM : default_update_pc_type;
 endmodule

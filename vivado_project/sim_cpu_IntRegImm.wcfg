@@ -11,15 +11,15 @@
       </db_ref>
    </db_ref_list>
    <zoom_setting>
-      <ZoomStartTime time="0fs"></ZoomStartTime>
-      <ZoomEndTime time="601251fs"></ZoomEndTime>
-      <Cursor1Time time="601250fs"></Cursor1Time>
+      <ZoomStartTime time="552431fs"></ZoomStartTime>
+      <ZoomEndTime time="602832fs"></ZoomEndTime>
+      <Cursor1Time time="593481fs"></Cursor1Time>
    </zoom_setting>
    <column_width_setting>
       <NameColumnWidth column_width="166"></NameColumnWidth>
       <ValueColumnWidth column_width="67"></ValueColumnWidth>
    </column_width_setting>
-   <WVObjectSize size="61" />
+   <WVObjectSize size="80" />
    <wvobject type="logic" fp_name="/sim_cpu/cpu0/clk">
       <obj_property name="ElementShortName">clk</obj_property>
       <obj_property name="ObjectShortName">clk</obj_property>
@@ -152,6 +152,10 @@
       <obj_property name="ElementShortName">clk</obj_property>
       <obj_property name="ObjectShortName">clk</obj_property>
    </wvobject>
+   <wvobject type="array" fp_name="/sim_cpu/cpu0/ctr">
+      <obj_property name="ElementShortName">ctr[3:0]</obj_property>
+      <obj_property name="ObjectShortName">ctr[3:0]</obj_property>
+   </wvobject>
    <wvobject type="logic" fp_name="/sim_cpu/cpu0/register_file0/en_load_rs1">
       <obj_property name="ElementShortName">en_load_rs1</obj_property>
       <obj_property name="ObjectShortName">en_load_rs1</obj_property>
@@ -191,6 +195,7 @@
    <wvobject type="array" fp_name="/sim_cpu/cpu0/register_file0/mem">
       <obj_property name="ElementShortName">mem[0:31][31:0]</obj_property>
       <obj_property name="ObjectShortName">mem[0:31][31:0]</obj_property>
+      <obj_property name="isExpanded"></obj_property>
    </wvobject>
    <wvobject type="logic" fp_name="/sim_cpu/cpu0/decoder0/clk">
       <obj_property name="ElementShortName">clk</obj_property>
@@ -263,5 +268,77 @@
    <wvobject type="array" fp_name="/sim_cpu/cpu0/decoder0/_sub">
       <obj_property name="ElementShortName">_sub[2:0]</obj_property>
       <obj_property name="ObjectShortName">_sub[2:0]</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/sim_cpu/cpu0/exec0/clk">
+      <obj_property name="ElementShortName">clk</obj_property>
+      <obj_property name="ObjectShortName">clk</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/sim_cpu/cpu0/exec0/lhs_type">
+      <obj_property name="ElementShortName">lhs_type[1:0]</obj_property>
+      <obj_property name="ObjectShortName">lhs_type[1:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/sim_cpu/cpu0/exec0/rhs_type">
+      <obj_property name="ElementShortName">rhs_type[1:0]</obj_property>
+      <obj_property name="ObjectShortName">rhs_type[1:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/sim_cpu/cpu0/exec0/instruction_code">
+      <obj_property name="ElementShortName">instruction_code[5:0]</obj_property>
+      <obj_property name="ObjectShortName">instruction_code[5:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/sim_cpu/cpu0/exec0/data_rs1">
+      <obj_property name="ElementShortName">data_rs1[31:0]</obj_property>
+      <obj_property name="ObjectShortName">data_rs1[31:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/sim_cpu/cpu0/exec0/data_rs2">
+      <obj_property name="ElementShortName">data_rs2[31:0]</obj_property>
+      <obj_property name="ObjectShortName">data_rs2[31:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/sim_cpu/cpu0/exec0/imm">
+      <obj_property name="ElementShortName">imm[31:0]</obj_property>
+      <obj_property name="ObjectShortName">imm[31:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/sim_cpu/cpu0/exec0/pc">
+      <obj_property name="ElementShortName">pc[31:0]</obj_property>
+      <obj_property name="ObjectShortName">pc[31:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/sim_cpu/cpu0/exec0/data_rd">
+      <obj_property name="ElementShortName">data_rd[31:0]</obj_property>
+      <obj_property name="ObjectShortName">data_rd[31:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/sim_cpu/cpu0/exec0/default_update_pc_type">
+      <obj_property name="ElementShortName">default_update_pc_type[1:0]</obj_property>
+      <obj_property name="ObjectShortName">default_update_pc_type[1:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/sim_cpu/cpu0/exec0/update_pc_type">
+      <obj_property name="ElementShortName">update_pc_type[1:0]</obj_property>
+      <obj_property name="ObjectShortName">update_pc_type[1:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/sim_cpu/cpu0/exec0/alucode">
+      <obj_property name="ElementShortName">alucode[3:0]</obj_property>
+      <obj_property name="ObjectShortName">alucode[3:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/sim_cpu/cpu0/exec0/rhs">
+      <obj_property name="ElementShortName">rhs[31:0]</obj_property>
+      <obj_property name="ObjectShortName">rhs[31:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/sim_cpu/cpu0/exec0/lhs">
+      <obj_property name="ElementShortName">lhs[31:0]</obj_property>
+      <obj_property name="ObjectShortName">lhs[31:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/sim_cpu/cpu0/exec0/alu0/alu_op">
+      <obj_property name="ElementShortName">alu_op[3:0]</obj_property>
+      <obj_property name="ObjectShortName">alu_op[3:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/sim_cpu/cpu0/exec0/alu0/lhs">
+      <obj_property name="ElementShortName">lhs[31:0]</obj_property>
+      <obj_property name="ObjectShortName">lhs[31:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/sim_cpu/cpu0/exec0/alu0/rhs">
+      <obj_property name="ElementShortName">rhs[31:0]</obj_property>
+      <obj_property name="ObjectShortName">rhs[31:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/sim_cpu/cpu0/exec0/alu0/dst">
+      <obj_property name="ElementShortName">dst[31:0]</obj_property>
+      <obj_property name="ObjectShortName">dst[31:0]</obj_property>
    </wvobject>
 </wave_config>

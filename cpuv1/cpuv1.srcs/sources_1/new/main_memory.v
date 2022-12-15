@@ -25,16 +25,14 @@ module main_memory (
     input wire clk,
     input wire [2:0] memory_option,
     input wire en_load,
-    input wire [31:0] addr_read,
+    input wire [31:0] addr,
     output wire [31:0] data_read,
     input wire en_store,
-    input wire [31:0] addr_write,
     input wire [31:0] data_write
 );
-    wire [31:0] r_addr, w_addr, r_data, w_data;
+    wire [31:0] _addr, data_r, data_w;
 
-    assign r_addr = addr_read >> 2;
-    assign w_addr = addr_write >> 2;
+    assign _addr = addr >> 2;
 
     wire [1:0] bhw_type;
     wire unsigned_load;
@@ -58,16 +56,28 @@ module main_memory (
         end 
     endfunction
 
-    assign data_read = MEMORY_RESHAPE(r_data, bhw_type, ~unsigned_load);
-    assign w_data = MEMORY_RESHAPE(data_write, bhw_type, 0);
+    function [31:0] MEMORY_COVER (
+        input [31:0] ORIGIN,
+        input [31:0] COVER,
+        input [1:0] TYPE
+    ); 
+        begin
+            MEMORY_COVER = (TYPE == `MEMORY_TYPE_BYTE) ? { ORIGIN[31:8], COVER[7:0] } :
+                           (TYPE == `MEMORY_TYPE_HALF_WORD) ? { ORIGIN[31:16], COVER[15:0] } :
+                           COVER;
+        end
+    endfunction
+
+    assign data_read = MEMORY_RESHAPE(data_r, bhw_type, ~unsigned_load);
+    assign data_w = MEMORY_COVER(data_r, data_write, bhw_type);
 
     block_ram ram0 (
         .clk(clk),
-        .addr_read(r_addr),
-        .data_read(r_data),
+        .addr_read(_addr),
+        .data_read(data_r),
         .en_store(en_store),
         .en_load(en_load),
-        .addr_write(w_addr),
-        .data_write(w_data)
+        .addr_write(_addr),
+        .data_write(data_w)
     );
 endmodule

@@ -125,12 +125,11 @@ module cpu(
     main_memory main_memory0 (
         .clk(clk),
         .memory_option(memory_option),
+        .addr(data_rs1 + imm),
         .en_load(en_load_main),
-        .addr_read(data_rs1 + imm),
         .data_read(data_rd_memory),
         .en_store(en_store_main),
-        .addr_write(data_rs1 + imm),
-        .data_write(data_rd)
+        .data_write(data_rs2)
     );
     
     always @(negedge clk) begin

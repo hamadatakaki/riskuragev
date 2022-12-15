@@ -21,7 +21,7 @@
 
 `define CYCLE_NS  12.5
 `define CYCLE_OPE 4
-`define N_OPES    1
+`define N_OPES    5
 `define N_CYCLES  (`N_OPES * `CYCLE_OPE + 1)
 
 module sim_cpu();

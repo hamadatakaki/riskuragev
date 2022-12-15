@@ -28,9 +28,9 @@ module cpu(
 );
     reg [2:0] ctr = -1;
     
-    wire [31:0] instruction, data_rs1, data_rs2, data_rd, imm;
-    wire [5:0] instruction_code;
     wire [4:0] addr_rs1, addr_rs2, addr_rd;
+    wire [31:0] instruction, data_rs1, data_rs2, data_rd_exec, data_rd_memory, data_rd, imm;
+    wire [5:0] instruction_code;
     wire [1:0] lhs_type, rhs_type;
     
     wire _en_load_rs1, _en_load_rs2, _en_store_rd, _en_store_main, _en_load_main;
@@ -48,6 +48,8 @@ module cpu(
     assign en_store_main = (ctr == `CPU_STEP_WRITEBACK) & _en_store_main;
     assign en_load_main = (ctr == `CPU_STEP_WRITEBACK) & _en_load_main;
 
+    wire [31:0] pc_dst;
+
     fetcher_v3 fetcher0(
         .clk(clk),
         .fetcher_option(fetcher_option),
@@ -55,7 +57,8 @@ module cpu(
         .instruction(instruction),
         .en_update_pc(en_update_pc),
         .data_rs1(data_rs1),
-        .imm(imm)
+        .imm(imm),
+        .pc_dst(pc_dst)
     );
 
     decoder decoder0(
@@ -104,12 +107,19 @@ module cpu(
         .data_rs1(data_rs1),
         .data_rs2(data_rs2),
         .imm(imm),
-        .pc(fetcher0.pc),
+        .pc(pc_dst),
         // output
-        .data_rd(data_rd),
+        .data_rd(data_rd_exec),
         // pc operation line
         .default_update_pc_type(_fetcher_option),
         .update_pc_type(fetcher_option)
+    );
+    
+    mux_1bit data_rd_select (
+        .ope(_en_load_main),
+        .in1(data_rd_exec),
+        .in2(data_rd_memory),
+        .out(data_rd)
     );
     
     main_memory main_memory0 (
@@ -117,7 +127,7 @@ module cpu(
         .memory_option(memory_option),
         .en_load(en_load_main),
         .addr_read(data_rs1 + imm),
-        .data_read(data_rd),
+        .data_read(data_rd_memory),
         .en_store(en_store_main),
         .addr_write(data_rs1 + imm),
         .data_write(data_rd)

@@ -66,9 +66,12 @@ module fetcher_v3(
     output wire [31:0] instruction,
     input wire en_update_pc,
     input wire [31:0] data_rs1,
-    input wire [31:0] imm
+    input wire [31:0] imm,
+    output wire [31:0] pc_dst
 );
     reg [31:0] pc = `PC_INIT;
+
+    assign pc_dst = pc;
 
     wire [31:0] _pc;
     assign _pc = pc >> 2;

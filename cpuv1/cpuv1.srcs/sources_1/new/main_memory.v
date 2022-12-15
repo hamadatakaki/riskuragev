@@ -36,6 +36,9 @@ module main_memory (
     assign r_addr = addr_read >> 2;
     assign w_addr = addr_write >> 2;
 
+    wire [1:0] bhw_type;
+    wire unsigned_load;
+
     assign bhw_type = memory_option[1:0];
     assign unsigned_load = memory_option[2];
 
@@ -55,7 +58,7 @@ module main_memory (
         end 
     endfunction
 
-    assign data_read = MEMORY_RESHAPE(r_data, bhw_type, unsigned_load);
+    assign data_read = MEMORY_RESHAPE(r_data, bhw_type, ~unsigned_load);
     assign w_data = MEMORY_RESHAPE(data_write, bhw_type, 0);
 
     block_ram ram0 (

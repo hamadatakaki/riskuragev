@@ -66,6 +66,7 @@ module execution (
     alu alu0 (
         .alu_op(alucode),
         .lhs(lhs),
+//        .rhs(rhs)
         .rhs(rhs),
         .dst(data_rd)
     );

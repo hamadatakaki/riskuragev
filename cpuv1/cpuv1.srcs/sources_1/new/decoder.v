@@ -36,7 +36,7 @@ module decoder(
     assign imm = (_opc == `OP_LUI || _opc == `OP_AUIPC) ? { instruction[31:12], {12{1'd0}} } :
                  (_opc == `OP_JAL) ? { {11{1'd0}}, instruction[31], instruction[19:12], instruction[20], instruction[30:21], {1'b0} } :
                  (_opc == `OP_OPIMM) ?  (
-                     (_sub == `SUB_SLL || _sub == `SUB_SRL) ? { {20{instruction[31]}}, instruction[31:20] } : { {27{1'd0}}, instruction[24:20] } 
+                     (_sub == `SUB_SLL || _sub == `SUB_SRL) ? { {27{1'd0}}, instruction[24:20] } : { {20{instruction[31]}}, instruction[31:20] }
                  ) :
                  (_opc == `OP_JALR || _opc == `OP_LOAD) ? { {20{1'd0}}, instruction[31:20] } :
                  (_opc == `OP_STORE) ? { {20{1'd0}}, instruction[31:25], instruction[11:7] } :
@@ -46,7 +46,9 @@ module decoder(
     // en lines    
     assign en_load_rs1 = (_opc != `OP_LUI) && (_opc != `OP_AUIPC) && (_opc != `OP_JAL);
     assign en_load_rs2 = (_opc == `OP_OP) || (_opc == `OP_BRANCH) || (_opc == `OP_STORE);
-    assign en_store_rd = (_opc != `OP_BRANCH) && (_opc != `OP_STORE);
+    assign en_store_rd = ((_opc != `OP_BRANCH) && (_opc != `OP_STORE)) && (
+        (~(_opc == `OP_JAL || _opc == `OP_JALR)) || (addr_rd != 0)
+    );
     assign en_load_main = (_opc == `OP_LOAD);
     assign en_store_main = (_opc == `OP_STORE);
 
@@ -58,9 +60,12 @@ module decoder(
 
     // ALU operation
     
-    assign lhs_input_type = (_opc == `OP_OPIMM || _opc == `OP_OP) ? `LHS_INPUT_RS1 :
+    assign lhs_input_type = (_opc == `OP_OP) ? `LHS_INPUT_RS1 :
                             (_opc == `OP_AUIPC || _opc == `OP_JAL || _opc == `OP_JALR) ? `LHS_INPUT_PC :
                             (_opc == `OP_LUI) ? `LHS_INPUT_CONST :
+                            (_opc == `OP_OPIMM) ? (
+                                (addr_rs1 == 0) ? `LHS_INPUT_CONST : `LHS_INPUT_RS1
+                            ) :
                             `LHS_INPUT_NOP;
                             
     assign rhs_input_type = (_opc == `OP_OP) ? `RHS_INPUT_RS2 :
@@ -95,19 +100,32 @@ module decoder(
                                   (_sub == `SUB_LHU) ? `INST_LHU :
                                   `INST_NOP
                               ) :
-                              (_opc == `OP_OPIMM || _opc == `OP_OP) ? (
+                              (_opc == `OP_OPIMM) ? (
+                                  (_sub == `SUB_ADD) ? `INST_ADD :
+                                  (_sub == `SUB_SLL) ? `INST_SLL :
+                                  (_sub == `SUB_SLT) ? `INST_SLT :
+                                  (_sub == `SUB_SLTU) ? `INST_SLTU :
+                                  (_sub == `SUB_XOR) ? `INST_XOR :
+                                  (_sub == `SUB_SRL) ? (
+                                      (instruction[30] == 0) ? `INST_SRL : `INST_SRA
+                                  ) :
+                                  (_sub == `SUB_OR) ? `INST_OR :
+                                  (_sub == `SUB_AND) ? `INST_AND :
+                                  `INST_NOP
+                              ) :
+                              (_opc == `OP_OP) ? (
                                  (_sub == `SUB_ADD) ? (
                                      (instruction[30] == 0) ? `INST_ADD : `INST_SUB
                                  ) :
-                              (_sub == `SUB_SLL) ? `INST_SLL :
-                              (_sub == `SUB_SLT) ? `INST_SLT :
-                              (_sub == `SUB_SLTU) ? `INST_SLTU :
-                              (_sub == `SUB_XOR) ? `INST_XOR :
-                              (_sub == `SUB_SRL) ? (
-                                  (instruction[30] == 0) ? `INST_SRL : `INST_SRA
-                              ) :
-                              (_sub == `SUB_OR) ? `INST_OR :
-                              (_sub == `SUB_AND) ? `INST_AND :
+                                 (_sub == `SUB_SLL) ? `INST_SLL :
+                                 (_sub == `SUB_SLT) ? `INST_SLT :
+                                 (_sub == `SUB_SLTU) ? `INST_SLTU :
+                                 (_sub == `SUB_XOR) ? `INST_XOR :
+                                 (_sub == `SUB_SRL) ? (
+                                     (instruction[30] == 0) ? `INST_SRL : `INST_SRA
+                                 ) :
+                                 (_sub == `SUB_OR) ? `INST_OR :
+                                 (_sub == `SUB_AND) ? `INST_AND :
                               `INST_NOP
                           ) :
                           `INST_NOP;

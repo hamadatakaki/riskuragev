@@ -40,7 +40,7 @@ module distributed_ram(
 endmodule
 
 module block_ram #(
-    parameter ADDRESS_LENGTH = 1024,
+    parameter ADDRESS_LENGTH = 32,
     parameter DATA_LENGTH = 32
 ) (
     input wire clk,

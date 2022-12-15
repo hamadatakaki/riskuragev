@@ -13,13 +13,13 @@
    <zoom_setting>
       <ZoomStartTime time="0fs"></ZoomStartTime>
       <ZoomEndTime time="262501fs"></ZoomEndTime>
-      <Cursor1Time time="189133fs"></Cursor1Time>
+      <Cursor1Time time="262500fs"></Cursor1Time>
    </zoom_setting>
    <column_width_setting>
       <NameColumnWidth column_width="166"></NameColumnWidth>
-      <ValueColumnWidth column_width="75"></ValueColumnWidth>
+      <ValueColumnWidth column_width="71"></ValueColumnWidth>
    </column_width_setting>
-   <WVObjectSize size="46" />
+   <WVObjectSize size="63" />
    <wvobject type="logic" fp_name="/sim_cpu/clk">
       <obj_property name="ElementShortName">clk</obj_property>
       <obj_property name="ObjectShortName">clk</obj_property>
@@ -29,16 +29,12 @@
       <obj_property name="ObjectShortName">clk</obj_property>
    </wvobject>
    <wvobject type="array" fp_name="/sim_cpu/cpu0/ctr">
-      <obj_property name="ElementShortName">ctr[2:0]</obj_property>
-      <obj_property name="ObjectShortName">ctr[2:0]</obj_property>
+      <obj_property name="ElementShortName">ctr[3:0]</obj_property>
+      <obj_property name="ObjectShortName">ctr[3:0]</obj_property>
    </wvobject>
    <wvobject type="array" fp_name="/sim_cpu/cpu0/addr_rs1">
       <obj_property name="ElementShortName">addr_rs1[4:0]</obj_property>
       <obj_property name="ObjectShortName">addr_rs1[4:0]</obj_property>
-   </wvobject>
-   <wvobject type="array" fp_name="/sim_cpu/cpu0/addr_rs2">
-      <obj_property name="ElementShortName">addr_rs2[4:0]</obj_property>
-      <obj_property name="ObjectShortName">addr_rs2[4:0]</obj_property>
    </wvobject>
    <wvobject type="array" fp_name="/sim_cpu/cpu0/addr_rd">
       <obj_property name="ElementShortName">addr_rd[4:0]</obj_property>
@@ -51,10 +47,6 @@
    <wvobject type="array" fp_name="/sim_cpu/cpu0/data_rs1">
       <obj_property name="ElementShortName">data_rs1[31:0]</obj_property>
       <obj_property name="ObjectShortName">data_rs1[31:0]</obj_property>
-   </wvobject>
-   <wvobject type="array" fp_name="/sim_cpu/cpu0/data_rs2">
-      <obj_property name="ElementShortName">data_rs2[31:0]</obj_property>
-      <obj_property name="ObjectShortName">data_rs2[31:0]</obj_property>
    </wvobject>
    <wvobject type="array" fp_name="/sim_cpu/cpu0/data_rd_exec">
       <obj_property name="ElementShortName">data_rd_exec[31:0]</obj_property>
@@ -148,6 +140,50 @@
       <obj_property name="ElementShortName">pc_dst[31:0]</obj_property>
       <obj_property name="ObjectShortName">pc_dst[31:0]</obj_property>
    </wvobject>
+   <wvobject type="logic" fp_name="/sim_cpu/cpu0/register_file0/clk">
+      <obj_property name="ElementShortName">clk</obj_property>
+      <obj_property name="ObjectShortName">clk</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/sim_cpu/cpu0/register_file0/en_load_rs1">
+      <obj_property name="ElementShortName">en_load_rs1</obj_property>
+      <obj_property name="ObjectShortName">en_load_rs1</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/sim_cpu/cpu0/register_file0/addr_rs1">
+      <obj_property name="ElementShortName">addr_rs1[4:0]</obj_property>
+      <obj_property name="ObjectShortName">addr_rs1[4:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/sim_cpu/cpu0/register_file0/data_rs1">
+      <obj_property name="ElementShortName">data_rs1[31:0]</obj_property>
+      <obj_property name="ObjectShortName">data_rs1[31:0]</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/sim_cpu/cpu0/register_file0/en_load_rs2">
+      <obj_property name="ElementShortName">en_load_rs2</obj_property>
+      <obj_property name="ObjectShortName">en_load_rs2</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/sim_cpu/cpu0/register_file0/addr_rs2">
+      <obj_property name="ElementShortName">addr_rs2[4:0]</obj_property>
+      <obj_property name="ObjectShortName">addr_rs2[4:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/sim_cpu/cpu0/register_file0/data_rs2">
+      <obj_property name="ElementShortName">data_rs2[31:0]</obj_property>
+      <obj_property name="ObjectShortName">data_rs2[31:0]</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/sim_cpu/cpu0/register_file0/en_store_rd">
+      <obj_property name="ElementShortName">en_store_rd</obj_property>
+      <obj_property name="ObjectShortName">en_store_rd</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/sim_cpu/cpu0/register_file0/addr_write">
+      <obj_property name="ElementShortName">addr_write[4:0]</obj_property>
+      <obj_property name="ObjectShortName">addr_write[4:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/sim_cpu/cpu0/register_file0/data_write">
+      <obj_property name="ElementShortName">data_write[31:0]</obj_property>
+      <obj_property name="ObjectShortName">data_write[31:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/sim_cpu/cpu0/register_file0/mem">
+      <obj_property name="ElementShortName">mem[0:31][31:0]</obj_property>
+      <obj_property name="ObjectShortName">mem[0:31][31:0]</obj_property>
+   </wvobject>
    <wvobject type="logic" fp_name="/sim_cpu/cpu0/main_memory0/clk">
       <obj_property name="ElementShortName">clk</obj_property>
       <obj_property name="ObjectShortName">clk</obj_property>
@@ -160,9 +196,9 @@
       <obj_property name="ElementShortName">en_load</obj_property>
       <obj_property name="ObjectShortName">en_load</obj_property>
    </wvobject>
-   <wvobject type="array" fp_name="/sim_cpu/cpu0/main_memory0/addr_read">
-      <obj_property name="ElementShortName">addr_read[31:0]</obj_property>
-      <obj_property name="ObjectShortName">addr_read[31:0]</obj_property>
+   <wvobject type="array" fp_name="/sim_cpu/cpu0/main_memory0/addr">
+      <obj_property name="ElementShortName">addr[31:0]</obj_property>
+      <obj_property name="ObjectShortName">addr[31:0]</obj_property>
    </wvobject>
    <wvobject type="array" fp_name="/sim_cpu/cpu0/main_memory0/data_read">
       <obj_property name="ElementShortName">data_read[31:0]</obj_property>
@@ -172,29 +208,21 @@
       <obj_property name="ElementShortName">en_store</obj_property>
       <obj_property name="ObjectShortName">en_store</obj_property>
    </wvobject>
-   <wvobject type="array" fp_name="/sim_cpu/cpu0/main_memory0/addr_write">
-      <obj_property name="ElementShortName">addr_write[31:0]</obj_property>
-      <obj_property name="ObjectShortName">addr_write[31:0]</obj_property>
-   </wvobject>
    <wvobject type="array" fp_name="/sim_cpu/cpu0/main_memory0/data_write">
       <obj_property name="ElementShortName">data_write[31:0]</obj_property>
       <obj_property name="ObjectShortName">data_write[31:0]</obj_property>
    </wvobject>
-   <wvobject type="array" fp_name="/sim_cpu/cpu0/main_memory0/r_addr">
-      <obj_property name="ElementShortName">r_addr[31:0]</obj_property>
-      <obj_property name="ObjectShortName">r_addr[31:0]</obj_property>
+   <wvobject type="array" fp_name="/sim_cpu/cpu0/main_memory0/_addr">
+      <obj_property name="ElementShortName">_addr[31:0]</obj_property>
+      <obj_property name="ObjectShortName">_addr[31:0]</obj_property>
    </wvobject>
-   <wvobject type="array" fp_name="/sim_cpu/cpu0/main_memory0/w_addr">
-      <obj_property name="ElementShortName">w_addr[31:0]</obj_property>
-      <obj_property name="ObjectShortName">w_addr[31:0]</obj_property>
+   <wvobject type="array" fp_name="/sim_cpu/cpu0/main_memory0/data_r">
+      <obj_property name="ElementShortName">data_r[31:0]</obj_property>
+      <obj_property name="ObjectShortName">data_r[31:0]</obj_property>
    </wvobject>
-   <wvobject type="array" fp_name="/sim_cpu/cpu0/main_memory0/r_data">
-      <obj_property name="ElementShortName">r_data[31:0]</obj_property>
-      <obj_property name="ObjectShortName">r_data[31:0]</obj_property>
-   </wvobject>
-   <wvobject type="array" fp_name="/sim_cpu/cpu0/main_memory0/w_data">
-      <obj_property name="ElementShortName">w_data[31:0]</obj_property>
-      <obj_property name="ObjectShortName">w_data[31:0]</obj_property>
+   <wvobject type="array" fp_name="/sim_cpu/cpu0/main_memory0/data_w">
+      <obj_property name="ElementShortName">data_w[31:0]</obj_property>
+      <obj_property name="ObjectShortName">data_w[31:0]</obj_property>
    </wvobject>
    <wvobject type="array" fp_name="/sim_cpu/cpu0/main_memory0/bhw_type">
       <obj_property name="ElementShortName">bhw_type[1:0]</obj_property>
@@ -203,5 +231,45 @@
    <wvobject type="logic" fp_name="/sim_cpu/cpu0/main_memory0/unsigned_load">
       <obj_property name="ElementShortName">unsigned_load</obj_property>
       <obj_property name="ObjectShortName">unsigned_load</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/sim_cpu/cpu0/main_memory0/ram0/clk">
+      <obj_property name="ElementShortName">clk</obj_property>
+      <obj_property name="ObjectShortName">clk</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/sim_cpu/cpu0/main_memory0/ram0/en_load">
+      <obj_property name="ElementShortName">en_load</obj_property>
+      <obj_property name="ObjectShortName">en_load</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/sim_cpu/cpu0/main_memory0/ram0/addr_read">
+      <obj_property name="ElementShortName">addr_read[31:0]</obj_property>
+      <obj_property name="ObjectShortName">addr_read[31:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/sim_cpu/cpu0/main_memory0/ram0/data_read">
+      <obj_property name="ElementShortName">data_read[31:0]</obj_property>
+      <obj_property name="ObjectShortName">data_read[31:0]</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/sim_cpu/cpu0/main_memory0/ram0/en_store">
+      <obj_property name="ElementShortName">en_store</obj_property>
+      <obj_property name="ObjectShortName">en_store</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/sim_cpu/cpu0/main_memory0/ram0/addr_write">
+      <obj_property name="ElementShortName">addr_write[31:0]</obj_property>
+      <obj_property name="ObjectShortName">addr_write[31:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/sim_cpu/cpu0/main_memory0/ram0/data_write">
+      <obj_property name="ElementShortName">data_write[31:0]</obj_property>
+      <obj_property name="ObjectShortName">data_write[31:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/sim_cpu/cpu0/main_memory0/ram0/mem">
+      <obj_property name="ElementShortName">mem[0:31][31:0]</obj_property>
+      <obj_property name="ObjectShortName">mem[0:31][31:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/sim_cpu/cpu0/main_memory0/ram0/ADDRESS_LENGTH">
+      <obj_property name="ElementShortName">ADDRESS_LENGTH[31:0]</obj_property>
+      <obj_property name="ObjectShortName">ADDRESS_LENGTH[31:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/sim_cpu/cpu0/main_memory0/ram0/DATA_LENGTH">
+      <obj_property name="ElementShortName">DATA_LENGTH[31:0]</obj_property>
+      <obj_property name="ObjectShortName">DATA_LENGTH[31:0]</obj_property>
    </wvobject>
 </wave_config>

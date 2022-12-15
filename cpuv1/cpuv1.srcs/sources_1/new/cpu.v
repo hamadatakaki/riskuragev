@@ -26,7 +26,7 @@
 module cpu(
     input wire clk
 );
-    reg [2:0] ctr = -1;
+    reg [3:0] ctr = -1;
     
     wire [4:0] addr_rs1, addr_rs2, addr_rd;
     wire [31:0] instruction, data_rs1, data_rs2, data_rd_exec, data_rd_memory, data_rd, imm;
@@ -40,13 +40,13 @@ module cpu(
     wire [2:0] memory_option;
 
     assign en_fetch = (ctr == `CPU_STEP_FETCH);
-    assign en_update_pc = (ctr == `CPU_STEP_WRITEBACK);
+    assign en_update_pc = (ctr == `CPU_STEP_REGWRITE);
 
     assign en_load_rs1 = (ctr == `CPU_STEP_REGREAD) & _en_load_rs1;
     assign en_load_rs2 = (ctr == `CPU_STEP_REGREAD) & _en_load_rs2;
-    assign en_store_rd = (ctr == `CPU_STEP_REGUPD) & _en_store_rd;
-    assign en_store_main = (ctr == `CPU_STEP_WRITEBACK) & _en_store_main;
-    assign en_load_main = (ctr == `CPU_STEP_WRITEBACK) & _en_load_main;
+    assign en_store_rd = (ctr == `CPU_STEP_REGWRITE) & _en_store_rd;
+    assign en_store_main = (ctr == `CPU_STEP_MEMACCESS) & _en_store_main;
+    assign en_load_main = (ctr == `CPU_STEP_MEMACCESS) & _en_load_main;
 
     wire [31:0] pc_dst;
 

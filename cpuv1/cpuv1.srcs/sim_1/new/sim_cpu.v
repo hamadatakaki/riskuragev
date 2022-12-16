@@ -35,11 +35,11 @@ module sim_cpu();
     end
     
     initial begin
-        $readmemh("./IntRegReg.hex", cpu0.fetcher0.rom0.mem);
+        $readmemh("./ControlTransfer.hex", cpu0.fetcher0.rom0.mem);
 
         #(`CYCLE_NS * `N_CYCLES);
         
-        $writememh("./dst_IntRegReg_Regs.hex", cpu0.register_file0.mem);
+        $writememh("./dst_ControlTransfer_Regs.hex", cpu0.register_file0.mem);
         $finish;
     end
 endmodule

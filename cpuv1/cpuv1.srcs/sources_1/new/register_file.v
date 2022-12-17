@@ -70,7 +70,7 @@ module register_file_v2 (
             data_rs2 <= mem[addr_rs2];
         end
         
-        if (en_store_rd) begin
+        if (en_store_rd && (addr_write != 0)) begin
             mem[addr_write] <= data_write;
         end
     end

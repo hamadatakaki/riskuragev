@@ -2,19 +2,16 @@
 `include "instruction.vh"
 `include "fetcher.vh"
 
-`define UNDEFINED_IMM { 32{1'dx} }
+`define UNREACHABLE_IMM 32'd0
 
 module decoder(
     input wire clk,  // for DEBUG
     input wire [31:0] instruction,
-    output wire [4:0] addr_rs1,
-    output wire [4:0] addr_rs2,
-    output wire [4:0] addr_rd,
+    output wire [4:0] addr_rs1, addr_rs2, addr_rd,
     output wire [31:0] imm,
     // ALU operation
     output wire [5:0] instruction_code,
-    output wire [1:0] lhs_input_type,
-    output wire [1:0] rhs_input_type,
+    output wire [1:0] lhs_input_type, rhs_input_type,
     // option lines
     output wire [1:0] fetcher_option,
     output wire [2:0] memory_option,
@@ -41,7 +38,7 @@ module decoder(
                  (_opc == `OP_JALR || _opc == `OP_LOAD) ? { {20{1'd0}}, instruction[31:20] } :
                  (_opc == `OP_STORE) ? { {20{1'd0}}, instruction[31:25], instruction[11:7] } :
                  (_opc == `OP_BRANCH) ? { {32{1'd0}}, instruction[31], instruction[7], instruction[30:25], instruction[11:8], { 1'b0 } } :
-                 `UNDEFINED_IMM;
+                 `UNREACHABLE_IMM;
 
     // en lines    
     assign en_load_rs1 = (_opc != `OP_LUI) && (_opc != `OP_AUIPC) && (_opc != `OP_JAL);

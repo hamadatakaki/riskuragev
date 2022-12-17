@@ -59,7 +59,7 @@ endmodule
 
 // with Block ROM
 
-module fetcher_v3(
+module fetcher_v3 (
     input wire clk,
     input wire [1:0] fetcher_option,
     input wire en_fetch,
@@ -67,13 +67,12 @@ module fetcher_v3(
     input wire en_update_pc,
     input wire [31:0] data_rs1,
     input wire [31:0] imm,
-    output wire [31:0] pc_dst
+    output wire [31:0] program_counter
 );
+    wire [31:0] _pc;
     reg [31:0] pc = `PC_INIT;
 
-    assign pc_dst = pc;
-
-    wire [31:0] _pc;
+    assign program_counter = pc;
     assign _pc = pc >> 2;
 
     block_rom #(

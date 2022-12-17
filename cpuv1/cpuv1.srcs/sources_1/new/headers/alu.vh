@@ -11,4 +11,4 @@
 `define ALU_AND   4'd9
 `define ALU_NOP   4'hF
 
-`define NOT_REACHABLE_ALU_RESULT 33'h0XXXXFFFF
+`define NOT_REACHABLE_ALU_RESULT 33'h0

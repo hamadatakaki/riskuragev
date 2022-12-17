@@ -45,14 +45,9 @@ endmodule
 
 module register_file_v2 (
     input wire clk,
-    input wire en_load_rs1,
-    input wire [4:0] addr_rs1,
-    output reg [31:0] data_rs1,
-    input wire en_load_rs2,
-    input wire [4:0] addr_rs2, 
-    output reg [31:0] data_rs2,
-    input wire en_store_rd,
-    input wire [4:0] addr_write,
+    input wire en_load_rs1, en_load_rs2, en_store_rd,
+    input wire [4:0] addr_rs1, addr_rs2, addr_write,
+    output reg [31:0] data_rs1, data_rs2,
     input wire [31:0] data_write
 );
     reg [31:0] mem [0:31];

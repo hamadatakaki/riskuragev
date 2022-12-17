@@ -22,7 +22,7 @@
 `include "instruction.vh"
 `include "fetcher.vh"
 
-module branch(
+module branch (
     input wire [31:0] data_rs1, data_rs2,
     input wire [5:0] instruction_code,
     input wire [1:0] default_update_pc_type,

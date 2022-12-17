@@ -33,6 +33,10 @@ module execution (
     wire [3:0] alucode;
     wire [31:0] rhs, lhs;
 
+    assign alucode = (instruction_code < `INST_LUI) ? instruction_code[3:0] :
+                     (instruction_code < `INST_BEQ) ? `ALU_ADD :
+                     `ALU_NOP;
+
     mux_2bit muxL (
         .ope(lhs_type),
         .in1(data_rs1),
@@ -59,14 +63,9 @@ module execution (
         .update_pc_type(update_pc_type)
     );
 
-    assign alucode = (instruction_code < `INST_LUI) ? instruction_code[3:0] :
-                     (instruction_code < `INST_BEQ) ? `ALU_ADD :
-                     `ALU_NOP;
-
     alu alu0 (
         .alu_op(alucode),
         .lhs(lhs),
-//        .rhs(rhs)
         .rhs(rhs),
         .dst(data_rd)
     );

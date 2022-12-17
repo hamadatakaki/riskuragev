@@ -5,4 +5,3 @@
 `define UPD_PC_IMM    1
 `define UPD_PC_REGIMM 2
 `define UPD_PC_NO     3
-`define UPD_PC_UNDEFINED_VAL 32'hXXXX0000

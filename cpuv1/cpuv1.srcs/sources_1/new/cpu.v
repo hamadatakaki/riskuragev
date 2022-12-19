@@ -24,7 +24,8 @@
 `include "instruction.vh"
 
 module cpu(
-    input wire clk
+    input wire clk, rst_n,
+    output wire uart_tx
 );
     reg [3:0] ctr = -1;
     wire [31:0] pc, instruction;
@@ -115,15 +116,48 @@ module cpu(
         .update_pc_type(fetcher_option)
     );
 
+    wire [31:0] _data_rd_memory;
+
     main_memory main_memory0 (
         .clk(clk),
         .memory_option(memory_option),
         .addr(data_rs1 + imm),
         .en_load(en_load_main),
-        .data_read(data_rd_memory),
+        .data_read(_data_rd_memory),
         .en_store(en_store_main),
         .data_write(data_rs2)
     );
+    
+    // uart
+
+    wire [7:0] uart_IN_data;
+    wire uart_we;
+    wire uart_OUT_data;
+
+    assign uart_IN_data = data_rs2[7:0];
+    assign uart_we = (((data_rs1 + imm) == `UART_ADDR) && _en_store_main) ? 1'b1 : 1'b0;
+    assign uart_tx = uart_OUT_data;
+
+    uart uart0 (
+        .sys_clk_i(clk),
+        .sys_rstn_i(rst_n),
+        .uart_tx(uart_OUT_data),
+        .uart_wr_i(uart_we),
+        .uart_dat_i(uart_IN_data)
+    );
+
+    // hardware counter
+    
+    wire [31:0] hc_OUT_data;
+
+    hardware_counter hardware_counter0(
+        .CLK_IP(clk),
+        .RSTN_IP(rst_n),
+        .COUNTER_OP(hc_OUT_data)
+    );
+    
+    // mux_1bit
+    assign data_rd_memory = ((instruction_code == `INST_LW) && ((data_rs1 + imm) == `HARDWARE_COUNTER_ADDR)) ? hc_OUT_data : _data_rd_memory;
     
     always @(negedge clk) begin
         ctr <= (ctr + 1) % `CPU_STEPSIZE;

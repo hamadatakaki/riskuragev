@@ -19,6 +19,34 @@
 // 
 //////////////////////////////////////////////////////////////////////////////////
 
+module register_file (
+    input wire clk,
+    input wire en_load_rs1, en_load_rs2, en_store_rd,
+    input wire [4:0] addr_rs1, addr_rs2, addr_write,
+    output reg [31:0] data_rs1, data_rs2,
+    input wire [31:0] data_write
+);
+    reg [31:0] mem [0:31];
+    
+    initial begin
+        mem[0] = 0;
+    end
+    
+    always @(posedge clk) begin
+        if (en_load_rs1) begin
+            data_rs1 <= mem[addr_rs1];
+        end
+        
+        if (en_load_rs2) begin
+            data_rs2 <= mem[addr_rs2];
+        end
+        
+        if (en_store_rd && (addr_write != 0)) begin
+            mem[addr_write] <= data_write;
+        end
+    end
+endmodule
+
 module register_file_v1(
     input wire clk,
     input wire write,

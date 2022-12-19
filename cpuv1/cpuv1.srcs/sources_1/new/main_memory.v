@@ -65,7 +65,7 @@ module main_memory (
     assign mask_store = _mask << memdiff;
     assign data_w = data_write << (memdiff * 8);
 
-    block_ram_v2 ram0 (
+    ram ram0 (
         .clk(clk),
         .en_store(en_store),
         .en_load(en_load),

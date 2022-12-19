@@ -21,6 +21,42 @@
 
 `include "fetcher.vh"
 
+module fetcher (
+    input wire clk,
+    input wire [1:0] fetcher_option,
+    input wire en_fetch,
+    output wire [31:0] instruction,
+    input wire en_update_pc,
+    input wire [31:0] data_rs1,
+    input wire [31:0] imm,
+    output wire [31:0] program_counter
+);
+    wire [31:0] _pc;
+    reg [31:0] pc = `PC_INIT;
+
+    assign program_counter = pc;
+    assign _pc = pc >> 2;
+
+    rom #(
+        .CAPACITY(`FETCHER_ROM_SIZE)
+    ) rom0 (
+        .clk(clk),
+        .en_read(en_fetch),
+        .addr(_pc),
+        .data(instruction)
+    );
+
+    always @(posedge clk) begin
+        if (en_update_pc) begin
+            pc <= (fetcher_option == `UPD_PC_IMM)    ? pc + imm : 
+                  (fetcher_option == `UPD_PC_REGIMM) ? data_rs1 + imm :
+                  pc + 32'd4;
+        end
+    end
+
+endmodule
+
+
 // without Program-Counter
 
 module fetcher_v1(

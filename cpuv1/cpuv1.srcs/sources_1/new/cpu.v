@@ -51,7 +51,7 @@ module cpu(
     
     assign data_rd = _en_load_main ? data_rd_memory : data_rd_exec;
 
-    fetcher_v3 fetcher0(
+    fetcher fetcher0(
         .clk(clk),
         .fetcher_option(fetcher_option),
         .en_fetch(en_fetch),
@@ -85,7 +85,7 @@ module cpu(
         .en_store_main(_en_store_main)
     );
 
-    register_file_v2 register_file0(
+    register_file register_file0(
         .clk(clk),
         .en_load_rs1(en_load_rs1),
         .addr_rs1(addr_rs1),

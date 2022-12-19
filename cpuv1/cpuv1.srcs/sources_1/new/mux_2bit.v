@@ -30,7 +30,7 @@ module mux_1bit #(
     assign out = (ope == 0) ? in1 : in2;
 endmodule
 
-module _mux_2bit #(
+module mux_2bit #(
     parameter DATA_LENGTH = 32
 ) (
     input wire [1:0] ope,

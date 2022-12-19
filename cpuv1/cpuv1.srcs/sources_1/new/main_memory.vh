@@ -1,0 +1,3 @@
+`define MEMORY_TYPE_BYTE      2'b00
+`define MEMORY_TYPE_HALF_WORD 2'b01
+`define MEMORY_TYPE_WORD      2'b10

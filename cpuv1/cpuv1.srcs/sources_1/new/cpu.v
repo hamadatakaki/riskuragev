@@ -59,7 +59,8 @@ module cpu(
         .en_update_pc(en_update_pc),
         .data_rs1(data_rs1),
         .imm(imm),
-        .program_counter(pc)
+        .program_counter(pc),
+        .rst_n(rst_n)
     );
 
     decoder decoder0(
@@ -158,8 +159,16 @@ module cpu(
     
     // mux_1bit
     assign data_rd_memory = ((instruction_code == `INST_LW) && ((data_rs1 + imm) == `HARDWARE_COUNTER_ADDR)) ? hc_OUT_data : _data_rd_memory;
+
+//    initial begin
+//        ctr <= 0;
+//    end
     
     always @(negedge clk) begin
+        if (rst_n) begin
+            ctr <= 0;
+        end
+    
         ctr <= (ctr + 1) % `CPU_STEPSIZE;
     end
 endmodule

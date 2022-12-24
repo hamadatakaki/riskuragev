@@ -177,10 +177,10 @@ VL_INLINE_OPT void Vcpu::_sequent__TOP__3(Vcpu__Syms* __restrict vlSymsp) {
     CData/*4:0*/ __Vdlyvlsb__cpu__DOT__main_memory0__DOT__ram0__DOT__mem__v3;
     CData/*7:0*/ __Vdlyvval__cpu__DOT__main_memory0__DOT__ram0__DOT__mem__v3;
     CData/*0:0*/ __Vdlyvset__cpu__DOT__main_memory0__DOT__ram0__DOT__mem__v3;
-    SData/*14:0*/ __Vdlyvdim0__cpu__DOT__main_memory0__DOT__ram0__DOT__mem__v0;
-    SData/*14:0*/ __Vdlyvdim0__cpu__DOT__main_memory0__DOT__ram0__DOT__mem__v1;
-    SData/*14:0*/ __Vdlyvdim0__cpu__DOT__main_memory0__DOT__ram0__DOT__mem__v2;
-    SData/*14:0*/ __Vdlyvdim0__cpu__DOT__main_memory0__DOT__ram0__DOT__mem__v3;
+    SData/*15:0*/ __Vdlyvdim0__cpu__DOT__main_memory0__DOT__ram0__DOT__mem__v0;
+    SData/*15:0*/ __Vdlyvdim0__cpu__DOT__main_memory0__DOT__ram0__DOT__mem__v1;
+    SData/*15:0*/ __Vdlyvdim0__cpu__DOT__main_memory0__DOT__ram0__DOT__mem__v2;
+    SData/*15:0*/ __Vdlyvdim0__cpu__DOT__main_memory0__DOT__ram0__DOT__mem__v3;
     IData/*31:0*/ __Vdly__cpu__DOT__fetcher0__DOT__pc;
     IData/*31:0*/ __Vdlyvval__cpu__DOT__register_file0__DOT__mem__v0;
     // Body
@@ -196,7 +196,7 @@ VL_INLINE_OPT void Vcpu::_sequent__TOP__3(Vcpu__Syms* __restrict vlSymsp) {
                                                     & vlTOPp->cpu__DOT__instruction)))) {
         vlTOPp->cpu__DOT__main_memory0__DOT__data_r 
             = vlTOPp->cpu__DOT__main_memory0__DOT__ram0__DOT__mem
-            [(0x7fffU & (vlTOPp->cpu__DOT____Vcellinp__main_memory0__addr 
+            [(0xffffU & (vlTOPp->cpu__DOT____Vcellinp__main_memory0__addr 
                          >> 2U))];
     }
     if ((3U == (IData)(vlTOPp->cpu__DOT__ctr))) {
@@ -248,7 +248,7 @@ VL_INLINE_OPT void Vcpu::_sequent__TOP__3(Vcpu__Syms* __restrict vlSymsp) {
             __Vdlyvset__cpu__DOT__main_memory0__DOT__ram0__DOT__mem__v0 = 1U;
             __Vdlyvlsb__cpu__DOT__main_memory0__DOT__ram0__DOT__mem__v0 = 0U;
             __Vdlyvdim0__cpu__DOT__main_memory0__DOT__ram0__DOT__mem__v0 
-                = (0x7fffU & (vlTOPp->cpu__DOT____Vcellinp__main_memory0__addr 
+                = (0xffffU & (vlTOPp->cpu__DOT____Vcellinp__main_memory0__addr 
                               >> 2U));
         }
         if ((2U & (IData)(vlTOPp->cpu__DOT__main_memory0__DOT__mask_store))) {
@@ -258,7 +258,7 @@ VL_INLINE_OPT void Vcpu::_sequent__TOP__3(Vcpu__Syms* __restrict vlSymsp) {
             __Vdlyvset__cpu__DOT__main_memory0__DOT__ram0__DOT__mem__v1 = 1U;
             __Vdlyvlsb__cpu__DOT__main_memory0__DOT__ram0__DOT__mem__v1 = 8U;
             __Vdlyvdim0__cpu__DOT__main_memory0__DOT__ram0__DOT__mem__v1 
-                = (0x7fffU & (vlTOPp->cpu__DOT____Vcellinp__main_memory0__addr 
+                = (0xffffU & (vlTOPp->cpu__DOT____Vcellinp__main_memory0__addr 
                               >> 2U));
         }
         if ((4U & (IData)(vlTOPp->cpu__DOT__main_memory0__DOT__mask_store))) {
@@ -268,7 +268,7 @@ VL_INLINE_OPT void Vcpu::_sequent__TOP__3(Vcpu__Syms* __restrict vlSymsp) {
             __Vdlyvset__cpu__DOT__main_memory0__DOT__ram0__DOT__mem__v2 = 1U;
             __Vdlyvlsb__cpu__DOT__main_memory0__DOT__ram0__DOT__mem__v2 = 0x10U;
             __Vdlyvdim0__cpu__DOT__main_memory0__DOT__ram0__DOT__mem__v2 
-                = (0x7fffU & (vlTOPp->cpu__DOT____Vcellinp__main_memory0__addr 
+                = (0xffffU & (vlTOPp->cpu__DOT____Vcellinp__main_memory0__addr 
                               >> 2U));
         }
         if ((8U & (IData)(vlTOPp->cpu__DOT__main_memory0__DOT__mask_store))) {
@@ -278,7 +278,7 @@ VL_INLINE_OPT void Vcpu::_sequent__TOP__3(Vcpu__Syms* __restrict vlSymsp) {
             __Vdlyvset__cpu__DOT__main_memory0__DOT__ram0__DOT__mem__v3 = 1U;
             __Vdlyvlsb__cpu__DOT__main_memory0__DOT__ram0__DOT__mem__v3 = 0x18U;
             __Vdlyvdim0__cpu__DOT__main_memory0__DOT__ram0__DOT__mem__v3 
-                = (0x7fffU & (vlTOPp->cpu__DOT____Vcellinp__main_memory0__addr 
+                = (0xffffU & (vlTOPp->cpu__DOT____Vcellinp__main_memory0__addr 
                               >> 2U));
         }
     }
@@ -1733,7 +1733,7 @@ void Vcpu::_ctor_var_reset() {
     cpu__DOT__main_memory0__DOT__data_r = VL_RAND_RESET_I(32);
     cpu__DOT__main_memory0__DOT__data_w = VL_RAND_RESET_I(32);
     cpu__DOT__main_memory0__DOT__mask_store = VL_RAND_RESET_I(4);
-    { int __Vi0=0; for (; __Vi0<32768; ++__Vi0) {
+    { int __Vi0=0; for (; __Vi0<65536; ++__Vi0) {
             cpu__DOT__main_memory0__DOT__ram0__DOT__mem[__Vi0] = VL_RAND_RESET_I(32);
     }}
     cpu__DOT__uart0__DOT__bitcount = VL_RAND_RESET_I(4);

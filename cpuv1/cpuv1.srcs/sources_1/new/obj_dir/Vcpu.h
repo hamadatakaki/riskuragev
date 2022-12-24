@@ -57,7 +57,7 @@ VL_MODULE(Vcpu) {
     IData/*31:0*/ cpu__DOT__hardware_counter0__DOT__cycles;
     IData/*31:0*/ cpu__DOT__fetcher0__DOT__rom0__DOT__mem[98304];
     IData/*31:0*/ cpu__DOT__register_file0__DOT__mem[32];
-    IData/*31:0*/ cpu__DOT__main_memory0__DOT__ram0__DOT__mem[32768];
+    IData/*31:0*/ cpu__DOT__main_memory0__DOT__ram0__DOT__mem[65536];
     
     // LOCAL VARIABLES
     // Internals; generally not touched by application code

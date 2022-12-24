@@ -1,6 +1,6 @@
 #include <cstdio>
 #include <verilated.h>
-#include "Vcpu.h"
+#include "Vtop.h"
 
 // Set the clock speed of your processor.
 static constexpr std::size_t clock_Hz = 100000000;
@@ -8,7 +8,7 @@ static constexpr std::size_t clock_Hz = 100000000;
 static constexpr std::size_t uart_Hz = 115200;
 // The number of CoreMark iterations is depend on clock speed.
 // Max: 30 seconds
-static constexpr std::size_t max_cycle = 30 * clock_Hz;
+static constexpr std::size_t max_cycle = 3000 * clock_Hz;
 
 std::size_t timer_ps = 0;
 
@@ -41,7 +41,7 @@ void uart_rx(unsigned int u)
 
 int main()
 {
-    Vcpu top;
+    Vtop top;
     top.clk = 0;
     top.eval();
     top.rst_n = 0;

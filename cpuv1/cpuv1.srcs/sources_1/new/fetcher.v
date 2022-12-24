@@ -29,7 +29,8 @@ module fetcher (
     input wire en_update_pc,
     input wire [31:0] data_rs1,
     input wire [31:0] imm,
-    output wire [31:0] program_counter
+    output wire [31:0] program_counter,
+    input wire rst_n
 );
     wire [31:0] _pc;
     reg [31:0] pc = `PC_INIT;
@@ -47,6 +48,10 @@ module fetcher (
     );
 
     always @(posedge clk) begin
+        if (rst_n) begin
+            pc <= `PC_INIT;
+        end
+    
         if (en_update_pc) begin
             pc <= (fetcher_option == `UPD_PC_IMM)    ? pc + imm : 
                   (fetcher_option == `UPD_PC_REGIMM) ? data_rs1 + imm :

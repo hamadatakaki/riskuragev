@@ -21,7 +21,7 @@
 
 
 module ram #(
-    parameter ADDRESS_SIZE = 32'h8000
+    parameter ADDRESS_SIZE = 32'h10000
 ) (
     input wire clk,
     input wire en_load, en_store,
@@ -31,6 +31,10 @@ module ram #(
     input wire [31:0] data_write
 );
     reg [31:0] mem [0:ADDRESS_SIZE - 1];
+
+    initial begin
+        $readmemh("./coremark_data.hex", mem);
+    end
 
     always @(posedge clk) begin
         if (en_load) begin
